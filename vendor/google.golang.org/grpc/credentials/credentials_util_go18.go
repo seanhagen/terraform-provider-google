@@ -1,6 +1,8 @@
+// +build go1.8
+
 /*
  *
- * Copyright 2015 gRPC authors.
+ * Copyright 2017 gRPC authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +18,21 @@
  *
  */
 
-/*
-Package grpc implements an RPC system called gRPC.
+package credentials
 
-See grpc.io for more information about gRPC.
-*/
-package grpc // import "google.golang.org/grpc"
+import (
+	"crypto/tls"
+)
+
+// cloneTLSConfig returns a shallow clone of the exported
+// fields of cfg, ignoring the unexported sync.Once, which
+// contains a mutex and must not be copied.
+//
+// If cfg is nil, a new zero tls.Config is returned.
+func cloneTLSConfig(cfg *tls.Config) *tls.Config {
+	if cfg == nil {
+		return &tls.Config{}
+	}
+
+	return cfg.Clone()
+}
