@@ -29,6 +29,7 @@ import (
 	"google.golang.org/api/pubsub/v1"
 	"google.golang.org/api/runtimeconfig/v1beta1"
 	"google.golang.org/api/servicemanagement/v1"
+	"google.golang.org/api/siteverification/v1"
 	"google.golang.org/api/sourcerepo/v1"
 	"google.golang.org/api/spanner/v1"
 	"google.golang.org/api/sqladmin/v1beta4"
@@ -59,6 +60,7 @@ type Config struct {
 	clientIAM                    *iam.Service
 	clientServiceMan             *servicemanagement.APIService
 	clientBigQuery               *bigquery.Service
+	clientSiteVerification       *siteverification.Service
 
 	bigtableClientFactory *BigtableClientFactory
 }
@@ -70,6 +72,7 @@ func (c *Config) loadAndValidate() error {
 		"https://www.googleapis.com/auth/cloud-platform",
 		"https://www.googleapis.com/auth/ndev.clouddns.readwrite",
 		"https://www.googleapis.com/auth/devstorage.full_control",
+		"https://www.googleapis.com/auth/siteverification",
 	}
 
 	var client *http.Client
@@ -250,6 +253,13 @@ func (c *Config) loadAndValidate() error {
 		return err
 	}
 	c.clientSpanner.UserAgent = userAgent
+
+	log.Printf("[INFO] Instantiating Google Site Verification CLient...")
+	c.clientSiteVerification, err = siteverification.New(client)
+	if err != nil {
+		return err
+	}
+	c.clientSiteVerification.UserAgent = userAgent
 
 	return nil
 }
