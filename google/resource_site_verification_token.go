@@ -51,7 +51,7 @@ func resourceSiteVerificationTokenCreate(d *schema.ResourceData, meta interface{
 	config := meta.(*Config)
 	method := d.Get("method").(string)
 
-	verification := siteverification.SiteVerificationWebResourceGettokenRequest{
+	tokenReq := siteverification.SiteVerificationWebResourceGettokenRequest{
 		Site: &siteverification.SiteVerificationWebResourceGettokenRequestSite{
 			Identifier: d.Get("identifier").(string),
 			Type:       "INET_DOMAIN",
@@ -59,8 +59,8 @@ func resourceSiteVerificationTokenCreate(d *schema.ResourceData, meta interface{
 		VerificationMethod: method,
 	}
 
-	log.Printf("[DEBUG] Site Verification create token request: %#v", verification)
-	resp, err := config.clientSiteVerification.WebResource.GetToken(&verification).Do()
+	log.Printf("[DEBUG] Site Verification create token request: %#v", tokenReq)
+	resp, err := config.clientSiteVerification.WebResource.GetToken(&tokenReq).Do()
 	if err != nil {
 		return fmt.Errorf("Error creating Site Verification token: %s", err)
 	}
