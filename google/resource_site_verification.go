@@ -5,7 +5,6 @@ import (
 	"github.com/hashicorp/terraform/helper/schema"
 	"google.golang.org/api/siteverification/v1"
 	"log"
-	"strings"
 )
 
 func resourceSiteVerification() *schema.Resource {
