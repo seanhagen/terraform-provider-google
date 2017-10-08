@@ -54,7 +54,7 @@ func resourceSiteVerificationCreate(d *schema.ResourceData, meta interface{}) er
 	}
 	log.Printf("[DEBUG] Site verification insert response: %#v", resp)
 
-	err := d.Set("id", resp.Id)
+	err = d.Set("id", resp.Id)
 	return err
 }
 
