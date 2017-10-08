@@ -61,22 +61,29 @@ func resourceSiteVerificationCreate(d *schema.ResourceData, meta interface{}) er
 func resourceSiteVerificationRead(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 
+	log.Printf("[DEBUG] Site Verification read request")
 	resp, err := config.
 		clientSiteVerification.
 		WebResource.Get(d.Get("id").(string)).Do()
+	if err != nil {
+		return fmt.Errorf("Error reading Site Verification data: %#v", resp)
+	}
+	log.Printf("[DEBUG] Site Verification read response: %#v", resp)
 
-	// TODO logging
 	return nil
 }
 
 func resourceSiteVerificationDelete(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 
-
-	resp, err := config.
+	log.Printf("[DEBUG] Site Verification delete request")
+	err := config.
 		clientSiteVerification.
 		WebResource.Delete(d.Get("id").(string)).Do()
-	// TODO logging
+	if err != nil {
+		return fmt.Errorf("Error deleting Site Verification: %#v", err)
+	}
 
+	log.Printf("[DEBUG] Site Verification delete response successful")
 	return nil
 }
