@@ -48,7 +48,7 @@ func resourceSiteVerificationCreate(d *schema.ResourceData, meta interface{}) er
 
 	resp, err := config.
 		clientSiteVerification.
-		WebResource.Insert(method, verificationReq).Do()
+		WebResource.Insert(method, &verificationReq).Do()
 	if err != nil {
 		return fmt.Errorf("Error requesting site verification: %#v", err)
 	}
