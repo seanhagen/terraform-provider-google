@@ -61,12 +61,6 @@ func resourceSiteVerificationCreate(d *schema.ResourceData, meta interface{}) er
 func resourceSiteVerificationRead(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 
-	readReq := siteverification.SiteVerificationWebResourceResource{
-		Site: &siteverification.SiteVerificationWebResourceResourceSite{
-			Identifier: d.Get("identifier").(string),
-		},
-	}
-	// TODO logging
 	resp, err := config.
 		clientSiteVerification.
 		WebResource.Get(d.Get("id").(string)).Do()
@@ -78,12 +72,6 @@ func resourceSiteVerificationRead(d *schema.ResourceData, meta interface{}) erro
 func resourceSiteVerificationDelete(d *schema.ResourceData, meta interface{}) error {
 	config := meta.(*Config)
 
-	deleteReq := siteverification.SiteVerificationWebResourceResource{
-		Site: &siteverification.SiteVerificationWebResourceResourceSite{
-			Identifier: d.Get("identifier").(string),
-		},
-	}
-	// TODO logging
 
 	resp, err := config.
 		clientSiteVerification.
